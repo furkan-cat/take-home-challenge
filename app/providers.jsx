@@ -12,6 +12,10 @@ export function Providers({ children }) {
       text: {
         100: "#636c76",
         200: "#1f2328",
+        300: "#1A202C",
+      },
+      bg: {
+        100: "#f6f8fa",
       },
     },
   });
