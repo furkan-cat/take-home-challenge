@@ -1,7 +1,7 @@
 import getData from "@/app/api";
 import { create } from "zustand";
 
-export const useDataSlice = create((set) => ({
+const useDataSlice = create((set) => ({
   data: [],
   originalData: [],
   fetchData: async () => {
@@ -11,10 +11,12 @@ export const useDataSlice = create((set) => ({
   updateList: (selected) => set(() => ({ data: [...selected] })),
 }));
 
-export const useFilterSlice = create((set) => ({
+const useFilterSlice = create((set) => ({
   searched: "",
   filtered: "",
   resetState: (state) => set(() => ({ searched: state })),
   setFilter: (selected) => set(() => ({ filtered: selected, searched: "" })),
   setSearch: (searched) => set(() => ({ searched: searched })),
 }));
+
+export { useDataSlice, useFilterSlice };

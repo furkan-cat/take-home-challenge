@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useDataSlice } from "@/store";
+import { useDataSlice } from "@/store/index";
 import Table from "@/components/table/table";
-import { headerConstant } from "@/utils/constants";
 import NoData from "@/components/no-data/no-data";
+import { headerConstant } from "@/utils/constants";
 
 export default function Page() {
   const data = useDataSlice((state) => state.data);
@@ -21,7 +21,7 @@ export default function Page() {
         data?.map((item) => <Table.Item key={item.number} data={item} />)
       ) : (
         <NoData />
-      ) }
+      )}
     </Table>
   );
 }

@@ -83,12 +83,16 @@ export default function TableItem(props) {
                 {data.milestone}
               </Text>
             </HStack>
-          ): <span></span>}
+          ) : (
+            <span></span>
+          )}
           {data.assignee ? (
             <HStack>
               <Avatar src="https://bit.ly/dan-abramov" />
             </HStack>
-          ) : <span></span>}
+          ) : (
+            <span></span>
+          )}
           {data.comments > 0 ? (
             <HStack>
               <MessageIcon />
@@ -96,7 +100,9 @@ export default function TableItem(props) {
                 {data.comments}
               </Text>
             </HStack>
-          ): <span></span>}
+          ) : (
+            <span></span>
+          )}
         </Grid>
       </Grid>
       <HStack fontSize={12} color="text.100">

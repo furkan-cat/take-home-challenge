@@ -2,9 +2,9 @@
 
 import { Button, Flex, HStack, useMediaQuery } from "@chakra-ui/react";
 import NavLink from "../nav-link";
-import { Dropdown } from "../dropdown";
+import Dropdown from "@/components/dropdown";
 import { CaretDownIcon } from "@/public/svg";
-import { useDataSlice, useFilterSlice } from "@/store";
+import { useDataSlice, useFilterSlice } from "@/store/index";
 import { useMemo } from "react";
 import { handleAuthorSearch, handleLabelsSearch } from "./helpers";
 
@@ -84,6 +84,7 @@ export default function TableHeader({ data }) {
   const searchedLabelsData = useMemo(() => {
     return handleLabelsSearch(searched, originalData);
   }, [searched, originalData]);
+  console.log(searchedAuuthorData);
 
   return (
     <Flex

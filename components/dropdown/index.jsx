@@ -1,6 +1,8 @@
 "use client";
 
 import NextLink from "next/link";
+import Link from "next/link";
+import { useRef } from "react";
 import {
   Box,
   Button,
@@ -15,42 +17,23 @@ import {
   PopoverHeader,
   PopoverTrigger,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import Avatar from "@/components/avatar";
 import { CaretDownIcon, CheckIcon } from "@/public/svg";
-import { useRef } from "react";
-import { useFilterSlice } from "@/store";
+import { useFilterSlice } from "@/store/index";
 
-export const Dropdown = (props) => {
+export default function Dropdown(props) {
   const { text, onChange, onClick, filteredState, data } = props;
-  //const originalData = useDataSlice((state) => state.originalData);
   const searched = useFilterSlice((state) => state.searched);
   const reset = useFilterSlice((state) => state.resetState);
   const initRef = useRef();
 
-  // const labelSearchData = useMemo(() => {
-  //   if (!labelInputValue.length) {
-  //     const labels = [
-  //       ...new Set(
-  //         originalData.map((item, i) =>
-  //           item.labels.map((labels, x) => labels["name"])
-  //         )
-  //       ).values(),
-  //     ];
-  //     const uniqueLabels = new Set(labels.flat());
-
-  //     return uniqueLabels;
-  //   } else {
-  //     const filtered = originalData.filter((item) =>
-  //       item.labels.toLowerCase().includes(labelInputValue.toLowerCase())
-  //     );
-
-  //     return filtered;
-  //   }
-  // });
-
   return (
-    <Popover placement="bottom-end" arrowSize={"xl"} onClose={() => reset("")}>
+    <Popover
+      placement="bottom-end"
+      arrowSize={"xl"}
+      onClose={() => reset("")}
+      data-testid="dropdown"
+    >
       {({ onClose }) => (
         <>
           <PopoverTrigger>
@@ -134,4 +117,4 @@ export const Dropdown = (props) => {
       )}
     </Popover>
   );
-};
+}
