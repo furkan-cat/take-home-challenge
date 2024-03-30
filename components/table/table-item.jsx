@@ -4,7 +4,6 @@ import { MessageIcon, OctIcon, PullRequestIcon } from "@/public/svg";
 import {
   Badge,
   Box,
-  Flex,
   Grid,
   HStack,
   Text,
@@ -12,11 +11,9 @@ import {
 } from "@chakra-ui/react";
 import moment from "moment";
 import Avatar from "../avatar";
-import { useStore } from "@/store";
-import Link from "next/link";
 import { isColorDark } from "@/utils/helpers";
 
-export default function TableItem(props, { children }) {
+export default function TableItem(props) {
   const { data } = props;
   //   const {
   //     icon,
@@ -37,9 +34,6 @@ export default function TableItem(props, { children }) {
     fallback: false,
   });
 
-  const x = useStore.getState().data;
-  console.log(x);
-
   return (
     <Box p="16px" borderTop="1px" borderBottom="0.5px" borderColor="border.100">
       <Grid templateColumns={isS ? "none" : "4fr repeat(1, 1fr)"}>
@@ -55,8 +49,9 @@ export default function TableItem(props, { children }) {
             {data.title}
           </Text>
           <Text display="inline">
-            {data.labels.map((badge) => (
+            {data.labels?.map((badge) => (
               <Badge
+                key={badge.name}
                 bg={`#${badge.color}`}
                 color={isColorDark(badge.color) ? "#fff" : "#000"}
                 borderRadius={10}
@@ -76,32 +71,39 @@ export default function TableItem(props, { children }) {
         </Box>
 
         <Grid
+          alignItems="center"
           display={isS ? "none" : "grid"}
-          gap={10}
-          templateColumns="repeat(3, 1fr)"
+          justifyItems="end"
+          templateColumns="repeat(3, auto)"
         >
-          <HStack>
-            <PullRequestIcon />
-            <Text fontSize={12} fontWeight={600} color="text.300">
-              2
-            </Text>
-          </HStack>
-          <HStack>
-            <Avatar src="https://bit.ly/dan-abramov" />
-          </HStack>
-          <HStack>
-            <MessageIcon />
-            <Text fontSize={12} fontWeight={600} color="text.300">
-              2
-            </Text>
-          </HStack>
+          {data.milestone ? (
+            <HStack>
+              <PullRequestIcon />
+              <Text fontSize={12} fontWeight={600} color="text.300">
+                {data.milestone}
+              </Text>
+            </HStack>
+          ): <span></span>}
+          {data.assignee ? (
+            <HStack>
+              <Avatar src="https://bit.ly/dan-abramov" />
+            </HStack>
+          ) : <span></span>}
+          {data.comments > 0 ? (
+            <HStack>
+              <MessageIcon />
+              <Text fontSize={12} fontWeight={600} color="text.300">
+                {data.comments}
+              </Text>
+            </HStack>
+          ): <span></span>}
         </Grid>
       </Grid>
       <HStack fontSize={12} color="text.100">
         <Text>
           #{data.number} opened on{" "}
           {moment.parseZone(data.created_at).format("MMM DD, YYYY")} by{" "}
-          {data.user.login}
+          {data.user?.login}
         </Text>
       </HStack>
     </Box>

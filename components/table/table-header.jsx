@@ -4,8 +4,19 @@ import { Button, Flex, HStack, useMediaQuery } from "@chakra-ui/react";
 import NavLink from "../nav-link";
 import { Dropdown } from "../dropdown";
 import { CaretDownIcon } from "@/public/svg";
+import { useDataSlice, useFilterSlice } from "@/store";
+import { useMemo } from "react";
+import { handleAuthorSearch, handleLabelsSearch } from "./helpers";
 
 export default function TableHeader({ data }) {
+  const originalData = useDataSlice((state) => state.originalData);
+  const setFilter = useFilterSlice((state) => state.setFilter);
+  const filtered = useFilterSlice((state) => state.filtered);
+  const reset = useFilterSlice((state) => state.resetState);
+  const setSearch = useFilterSlice((state) => state.setSearch);
+  const searched = useFilterSlice((state) => state.searched);
+  const updateList = useDataSlice((state) => state.updateList);
+
   const [isS] = useMediaQuery("(max-width: 768px)", {
     ssr: true,
     fallback: false,
@@ -13,6 +24,66 @@ export default function TableHeader({ data }) {
   const [isM] = useMediaQuery("(min-width: 768px)", {
     ssr: true,
   });
+
+  const updateData = (val) => {
+    if (val !== searched) {
+      return originalData.filter((item) => item.user.login === val);
+    } else {
+      return originalData;
+    }
+  };
+
+  const onChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const onAuthorClick = (listItem) => {
+    const { login } = listItem.user;
+    // prevent click event if clicked same item
+    if (filtered === login) {
+      setFilter("");
+    } else {
+      setFilter(login);
+    }
+    // reset input field
+    reset("");
+    // get list items
+    const data = updateData(login);
+    updateList(data);
+  };
+
+  const updatexData = (val) => {
+    if (val !== searched) {
+      return originalData.filter((item) =>
+        item.labels.some((x) => x.name === val)
+      );
+    } else {
+      return originalData;
+    }
+  };
+
+  const onLabelsClick = (listItem) => {
+    const { label } = listItem;
+    // prevent click event if clicked same item
+    if (filtered === label) {
+      setFilter("");
+    } else {
+      setFilter(label);
+    }
+    // reset input field
+    reset("");
+    // get list items
+    const data = updatexData(label);
+    updateList(data);
+  };
+
+  const searchedAuuthorData = useMemo(() => {
+    return handleAuthorSearch(searched, originalData);
+  }, [searched, originalData]);
+
+  const searchedLabelsData = useMemo(() => {
+    return handleLabelsSearch(searched, originalData);
+  }, [searched, originalData]);
 
   return (
     <Flex
@@ -33,18 +104,28 @@ export default function TableHeader({ data }) {
             key={item.text}
             text={item.text}
             to={item.to}
-            value={2510}
           />
         ))}
       </HStack>
 
       <HStack spacing={"16px"}>
         <HStack gap={1} alignItems={"baseline"}>
-          <Dropdown text="Author" />
+          <Dropdown
+            data={searchedAuuthorData}
+            filteredState={filtered}
+            onChange={onChange}
+            onClick={onAuthorClick}
+            text="Author"
+          />
         </HStack>
 
         <HStack gap={1} alignItems={"baseline"}>
-          <Dropdown text="Label" />
+          <Dropdown
+            data={searchedLabelsData}
+            onChange={onChange}
+            onClick={onLabelsClick}
+            text="Label"
+          />
         </HStack>
 
         {data.rightLinks.map((item) => (
