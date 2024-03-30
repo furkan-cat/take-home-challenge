@@ -17,6 +17,9 @@ export function Providers({ children }) {
       bg: {
         100: "#f6f8fa",
       },
+      link: {
+        100: "#0969da",
+      },
     },
   });
 

@@ -10,6 +10,8 @@ export default async function getData() {
     throw new Error("Failed to fetch data");
   }
 
-  const data = await res.json();
-  return data;
+  const originalData = await res.json();
+  const data = structuredClone(originalData);
+
+  return { data, originalData };
 }
