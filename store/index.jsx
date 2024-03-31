@@ -1,13 +1,10 @@
-import getData from "@/app/api";
 import { create } from "zustand";
 
 const useDataSlice = create((set) => ({
   data: [],
   originalData: [],
-  fetchData: async () => {
-    set({ data: (await getData()).data });
-    set({ originalData: (await getData()).originalData });
-  },
+  setFetchedData: (data, originalData) =>
+    set(() => ({ data: data, originalData: originalData })),
   updateList: (selected) => set(() => ({ data: [...selected] })),
 }));
 
