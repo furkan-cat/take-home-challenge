@@ -20,13 +20,13 @@ describe("Dropdown component", () => {
   });
 
   describe("Test functionalities", () => {
-    it("render component properly", () => {
+    it("render", () => {
       const dropdown = screen.getAllByTestId("dropdown-content");
 
       expect(dropdown).toBeDefined();
     });
 
-    it("dropdown visibility on-click", async () => {
+    it("dropdown visibility", () => {
       const dropdown = screen.getByTestId("dropdown-content");
       const button = screen.getByTestId("dropdown-button");
 
@@ -37,11 +37,42 @@ describe("Dropdown component", () => {
       // fire click event
       fireEvent.click(button);
       // wait till animation ends
-      await waitFor(() => expect(dropdown).toHaveStyle("visibility: visible"));
+      waitFor(() => expect(dropdown).toHaveStyle("visibility: visible"));
       // check is dropdown visible
       fireEvent.click(button);
       // wait till animation ends
-      await waitFor(() => expect(dropdown).toHaveStyle("visibility: hidden"));
+      waitFor(() => expect(dropdown).toHaveStyle("visibility: hidden"));
+    });
+
+    it("input", () => {
+      const input = screen.getByTestId("dropdown-input");
+
+      expect(input).toBeDefined();
+      expect(input).toHaveValue("");
+
+      // type a text in input
+      fireEvent.change(input, { target: { value: "test-input" } });
+      waitFor(() => expect(input).toHaveValue("test-input"));
+
+      // clear input
+      fireEvent.change(input, { target: { value: "" } });
+      waitFor(() => expect(input).toHaveValue(""));
+    });
+
+    it("dropdown content", () => {
+      const header = screen.getByTestId("dropdown-header");
+      const input = screen.getByTestId("dropdown-input");
+
+      dropdownLabelsMockData.forEach((item, i) => {
+        const list = screen.getAllByTestId("dropdown-list")[i];
+        const avatar = screen.getAllByTestId("avatar")[i];
+
+        expect(list).toBeDefined();
+        expect(avatar).toBeDefined();
+      });
+
+      expect(header).toHaveTextContent("Filter by author");
+      expect(input).toBeDefined();
     });
   });
 

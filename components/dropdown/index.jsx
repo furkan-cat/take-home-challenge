@@ -1,7 +1,5 @@
 "use client";
 
-import NextLink from "next/link";
-import Link from "next/link";
 import { useRef } from "react";
 import {
   Box,
@@ -77,7 +75,12 @@ export default function Dropdown(props) {
                 data-testid="dropdown-input"
               />
             </Box>
-            <PopoverBody p={0} m={0} overflowY="scroll">
+            <PopoverBody
+              p={0}
+              m={0}
+              overflowY="scroll"
+              data-testid="dropdown-body"
+            >
               <Divider />
 
               {data?.map((data) => {
@@ -87,36 +90,35 @@ export default function Dropdown(props) {
                 const label = data?.label;
 
                 return (
-                  <Flex
-                    align="center"
-                    pl={4}
-                    key={data.id || data.label}
-                    onClick={() => {
-                      onClick(data);
-                      onClose();
-                    }}
-                    style={{
-                      display: "block",
-                    }}
-                    _hover={{ backgroundColor: "blackAlpha.100" }}
-                  >
-                    {filteredState ? (
-                      <CheckIcon
-                        opacity={login === filteredState ? 1 : 0}
-                        data-testid="dropdown-filtered-state"
+                  <Box key={data.id || data.label}>
+                    <Flex
+                      align="center"
+                      pl={4}
+                      onClick={() => {
+                        onClick(data);
+                        onClose();
+                      }}
+                      _hover={{ backgroundColor: "blackAlpha.100" }}
+                      data-testid="dropdown-list"
+                    >
+                      {filteredState ? (
+                        <CheckIcon
+                          opacity={login === filteredState ? 1 : 0}
+                          data-testid="dropdown-filtered-state"
+                        />
+                      ) : null}
+                      <Avatar
+                        name={login || label}
+                        nickname={login || label}
+                        px={8}
+                        py={"2px"}
+                        src={url}
+                        color={color}
                       />
-                    ) : null}
-                    <Avatar
-                      name={login || label}
-                      nickname={login || label}
-                      px={8}
-                      py={"2px"}
-                      src={url}
-                      color={color}
-                    />
-                  </Flex>
+                    </Flex>
+                    <Divider />
+                  </Box>
                 );
-                <Divider />;
               })}
             </PopoverBody>
           </PopoverContent>
