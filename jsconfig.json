@@ -9,10 +9,7 @@
       "@/components/*": ["components/*"],
       "@/public/*": ["public/*"],
       "@/store/*": ["store/*"],
-      "@/utils/*": ["utils/*"]
-    },
-    "typeAcquisition": {
-      "include": ["jest"]
+      "@/utils/*": ["utils/*"],
     }
   }
 }

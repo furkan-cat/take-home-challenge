@@ -53,4 +53,15 @@ const handleLabelsSearch = (searched, originalData) => {
   }
 };
 
-export { handleAuthorSearch, handleLabelsSearch };
+const calculateIssueCount = (data) => {
+  let open = null;
+  let closed = null;
+
+  data.map((item) => {
+    item.state === "open" ? (open += 1) : (closed += 1);
+  });
+
+  return { open, closed };
+};
+
+export { handleAuthorSearch, handleLabelsSearch, calculateIssueCount };

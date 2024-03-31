@@ -4,7 +4,7 @@ import { Flex } from "@chakra-ui/react";
 import Link from "next/link";
 
 export default function NavLink(props) {
-  const { icon, text, to } = props;
+  const { icon, text, to, value } = props;
 
   return (
     <Link href={to}>
@@ -15,6 +15,7 @@ export default function NavLink(props) {
         fontSize={"14px"}
         gap={"4px"}
       >
+        {value}
         {icon}
         {text}
       </Flex>

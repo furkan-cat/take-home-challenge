@@ -15,21 +15,7 @@ import { isColorDark } from "@/utils/helpers";
 
 export default function TableItem(props) {
   const { data } = props;
-  //   const {
-  //     icon,
-  //     title,
-  //     isssueId,
-  //     created,
-  //     user,
-  //     badge,
-  //     linkedPullRequest,
-  //     replyCount,
-  //   } = props;
   const [isS] = useMediaQuery("(max-width: 768px)", {
-    ssr: true,
-    fallback: false,
-  });
-  const [isXs] = useMediaQuery("(max-width: 545px)", {
     ssr: true,
     fallback: false,
   });

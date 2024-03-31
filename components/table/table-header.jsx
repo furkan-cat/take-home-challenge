@@ -6,7 +6,11 @@ import Dropdown from "@/components/dropdown";
 import { CaretDownIcon } from "@/public/svg";
 import { useDataSlice, useFilterSlice } from "@/store/index";
 import { useMemo } from "react";
-import { handleAuthorSearch, handleLabelsSearch } from "./helpers";
+import {
+  calculateIssueCount,
+  handleAuthorSearch,
+  handleLabelsSearch,
+} from "./helpers";
 
 export default function TableHeader({ data }) {
   const originalData = useDataSlice((state) => state.originalData);
@@ -84,7 +88,6 @@ export default function TableHeader({ data }) {
   const searchedLabelsData = useMemo(() => {
     return handleLabelsSearch(searched, originalData);
   }, [searched, originalData]);
-  console.log(searchedAuuthorData);
 
   return (
     <Flex
@@ -99,14 +102,20 @@ export default function TableHeader({ data }) {
         display={isM ? "flex" : "none"}
         alignItems="center"
       >
-        {data.leftLinks.map((item) => (
-          <NavLink
-            icon={item.icon}
-            key={item.text}
-            text={item.text}
-            to={item.to}
-          />
-        ))}
+        {data.leftLinks.map((item) => {
+          const { open, closed } = calculateIssueCount(originalData);
+          const value = item.text === "Open" ? open : closed;
+
+          return (
+            <NavLink
+              icon={item.icon}
+              key={item.text}
+              text={item.text}
+              to={item.to}
+              value={value}
+            />
+          );
+        })}
       </HStack>
 
       <HStack spacing={"16px"}>
