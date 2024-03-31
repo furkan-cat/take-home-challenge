@@ -44,7 +44,6 @@ const handleLabelsSearch = (searched, originalData) => {
   if (!searched.length) {
     return newArr;
   } else {
-    console.log(newArr, searched);
     const filtered = newArr.filter((item) =>
       item.label.toLowerCase().includes(searched.toLowerCase())
     );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { useDataSlice } from "@/store/index";
 import Table from "@/components/table/table";
 import NoData from "@/components/no-data/no-data";
@@ -18,7 +19,11 @@ export default function Page() {
     <Table>
       <Table.Header data={headerConstant} />
       {data.length ? (
-        data?.map((item) => <Table.Item key={item.number} data={item} />)
+        data?.map((item) => (
+          <Link key={item.number} href={item.html_url}>
+            <Table.Item key={item.number} data={item} />
+          </Link>
+        ))
       ) : (
         <NoData />
       )}

@@ -46,19 +46,25 @@ export default function Dropdown(props) {
               variant="link"
               ref={initRef}
               onClick={() => onClose()}
+              data-testid="dropdown-button"
             >
               {text}
             </Button>
           </PopoverTrigger>
-          <PopoverContent maxW={"300px"} h="450px">
+          <PopoverContent
+            maxW="300px"
+            maxH="450px"
+            data-testid="dropdown-content"
+          >
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader
               fontSize={"12px"}
               fontWeight={"600"}
               color={"text.200"}
+              data-testid="dropdown-header"
             >
-              Fitler by author
+              Filter by author
             </PopoverHeader>
             <Box p={2}>
               <Input
@@ -68,6 +74,7 @@ export default function Dropdown(props) {
                 placeholder="Basic usage"
                 size="sm"
                 value={searched}
+                data-testid="dropdown-input"
               />
             </Box>
             <PopoverBody p={0} m={0} overflowY="scroll">
@@ -80,12 +87,11 @@ export default function Dropdown(props) {
                 const label = data?.label;
 
                 return (
-                  <Link
-                    as={NextLink}
-                    href="/"
+                  <Flex
+                    align="center"
+                    pl={4}
                     key={data.id || data.label}
                     onClick={() => {
-                      //reset("");
                       onClick(data);
                       onClose();
                     }}
@@ -94,22 +100,23 @@ export default function Dropdown(props) {
                     }}
                     _hover={{ backgroundColor: "blackAlpha.100" }}
                   >
-                    <Flex align="center" pl={4}>
-                      {filteredState ? (
-                        <CheckIcon opacity={login === filteredState ? 1 : 0} />
-                      ) : null}
-                      <Avatar
-                        name={login || label}
-                        nickname={login || label}
-                        px={8}
-                        py={"2px"}
-                        src={url}
-                        color={color}
+                    {filteredState ? (
+                      <CheckIcon
+                        opacity={login === filteredState ? 1 : 0}
+                        data-testid="dropdown-filtered-state"
                       />
-                    </Flex>
-                    <Divider />
-                  </Link>
+                    ) : null}
+                    <Avatar
+                      name={login || label}
+                      nickname={login || label}
+                      px={8}
+                      py={"2px"}
+                      src={url}
+                      color={color}
+                    />
+                  </Flex>
                 );
+                <Divider />;
               })}
             </PopoverBody>
           </PopoverContent>
